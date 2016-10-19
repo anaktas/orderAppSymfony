@@ -14,7 +14,12 @@ class InitialController extends Controller
      */
     public function initAction(Request $request)
     {
-        $name = 'Tasos';
-        return new JsonResponse(array('name' => $name));
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            $params = json_decode($content, true);
+            return new JsonResponse(array('name' => $params['name']));
+        }        
     }
 }
