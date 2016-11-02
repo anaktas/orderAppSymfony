@@ -50,5 +50,27 @@ class ProductController extends Controller
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
     }
+
+    /**
+     * @Route("/api/category/getall")
+     */
+    public function getAllCategoriesAction(Request $request)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery('SELECT c FROM AppBundle:Category c');
+            $categories = $query->getResult();
+
+            if(!$categories) {
+                return new JsonResponse(array('response' => $categories));
+            } else {
+                return new JsonResponse(array('response' => 'Empty result'));
+            }
+        } catch(\Doctrine\ORM\ORMException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        }     
+    }
 }
 
