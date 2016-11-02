@@ -20,6 +20,12 @@ class StoreController extends Controller
         $content = $request->getContent();
         if (!empty($content))
         {
+            /*
+            * {
+            *   "pid": 12,
+            *   "quantity": 120
+            * }
+            */
             $params = json_decode($content, true);
             $pid = $params['pid'];
             $quantity = $params['quantity'];
@@ -31,7 +37,7 @@ class StoreController extends Controller
             $em->persist($store);
             $em->flush();
             $rId = $store->getId();
-            return new JsonResponse(array('output' => 'A quantity for a product was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'A quantity for a product was created with id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       

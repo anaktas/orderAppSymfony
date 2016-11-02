@@ -20,6 +20,14 @@ class ProductController extends Controller
         $content = $request->getContent();
         if (!empty($content))
         {
+            /*
+            * {
+            *   "name": "Freddo Espresso",
+            *   "description": "Κρύος καφές espresso",
+            *   "price": 2.5,
+            *   "cid": 3
+            * }
+            */
             $params = json_decode($content, true);
             $name = $params['name'];
             $description = $params['description'];
@@ -35,7 +43,7 @@ class ProductController extends Controller
             $em->persist($product);
             $em->flush();
             $rId = $product->getId();
-            return new JsonResponse(array('output' => 'New category was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'New category was created with id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       

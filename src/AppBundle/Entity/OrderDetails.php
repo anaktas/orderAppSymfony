@@ -43,6 +43,12 @@ class OrderDetails
      */
     private $quantity;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
 
     /**
      * Get id
@@ -148,6 +154,30 @@ class OrderDetails
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return OrderDetails
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }
 

@@ -20,18 +20,22 @@ class CustomerTableController extends Controller
         $content = $request->getContent();
         if (!empty($content))
         {
+            /*
+            * {
+            *   "number": 12
+            * }
+            */
             $params = json_decode($content, true);
             $number = $params['number'];
-            $status = $params['status'];
 
             $customerTable->setTableNumber($number);
-            $customerTable->setStatus($status);
+            $customerTable->setStatus("free");
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($customerTable);
             $em->flush();
             $rId = $customerTable->getId();
-            return new JsonResponse(array('output' => 'New customer table was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'New customer table was created with id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
