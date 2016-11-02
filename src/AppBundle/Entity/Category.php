@@ -5,11 +5,11 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Product
+ * Category
  * @ORM\Entity
- * @ORM\Table(name="product")
+ * @ORM\Table(name="category")
  */
-class Product
+class Category
 {
     /**
      * @var int
@@ -31,18 +31,6 @@ class Product
      */
     private $description;
 
-    /**
-     * @var float
-     * @ORM\Column(type="float")
-     */
-    private $price;
-
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $cid;
-
 
     /**
      * Get id
@@ -59,7 +47,7 @@ class Product
      *
      * @param string $name
      *
-     * @return Product
+     * @return Category
      */
     public function setName($name)
     {
@@ -83,7 +71,7 @@ class Product
      *
      * @param string $description
      *
-     * @return Product
+     * @return Category
      */
     public function setDescription($description)
     {
@@ -100,54 +88,6 @@ class Product
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set price
-     *
-     * @param float $price
-     *
-     * @return Product
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return float
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set cid
-     *
-     * @param integer $cid
-     *
-     * @return Product
-     */
-    public function setCid($cid)
-    {
-        $this->cid = $cid;
-
-        return $this;
-    }
-
-    /**
-     * Get cid
-     *
-     * @return integer
-     */
-    public function getCid()
-    {
-        return $this->cid;
     }
 }
 
