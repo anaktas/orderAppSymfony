@@ -21,6 +21,7 @@ class StoreController extends Controller
         if (!empty($content))
         {
             /*
+            * EXAMPLE:
             * {
             *   "pid": 12,
             *   "quantity": 120
@@ -33,9 +34,16 @@ class StoreController extends Controller
             $store->setPid($pid);
             $store->setQuantity($quantity);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($store);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($store);
+                $em->flush();
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+            
             $rId = $store->getId();
             return new JsonResponse(array('response' => 'A quantity for a product was created with id: ' . $rId));
         } else {

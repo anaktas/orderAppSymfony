@@ -22,6 +22,7 @@ class OrderingController extends Controller
         if (!empty($content))
         {
             /*
+            * EXAMPLE:
             * {
             *   "tableNumber": 2,
             *   "status": "opened",
@@ -48,9 +49,16 @@ class OrderingController extends Controller
             $orderList->setStatus($status);
             $orderList->setOrderListId(0);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($orderList);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($orderList);
+                $em->flush();
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+            
             $oId = $orderList->getId();
             foreach ($details as $detail) {
                 $orderDetail = new OrderDetails();
@@ -59,9 +67,15 @@ class OrderingController extends Controller
                 $orderDetail->setPid($detail['pid']);
                 $orderDetail->setQuantity($detail['quantity']);
                 $orderDetail->setDescription($detail['description']);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($orderDetail);
-                $em->flush();
+                try {
+                    $em2 = $this->getDoctrine()->getManager();
+                    $em2->persist($orderDetail);
+                    $em2->flush();
+                } catch(\Doctrine\ORM\ORMException $e) {
+                    return new JsonResponse(array('error' => $e->getMessage()));
+                } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                    return new JsonResponse(array('error' => $e->getMessage()));
+                }
             }
             return new JsonResponse(array('response' => 'New order was created with id: ' . $oId));
         } else {

@@ -21,6 +21,7 @@ class CustomerTableController extends Controller
         if (!empty($content))
         {
             /*
+            * EXAMPLE:
             * {
             *   "number": 12
             * }
@@ -31,9 +32,16 @@ class CustomerTableController extends Controller
             $customerTable->setTableNumber($number);
             $customerTable->setStatus("free");
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($customerTable);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($customerTable);
+                $em->flush();
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+            
             $rId = $customerTable->getId();
             return new JsonResponse(array('response' => 'New customer table was created with id: ' . $rId));
         } else {

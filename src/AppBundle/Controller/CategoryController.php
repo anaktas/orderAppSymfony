@@ -21,6 +21,7 @@ class ProductController extends Controller
         if (!empty($content))
         {
             /*
+            * EXAMPLE:
             * {
             *   "name": "Ζεστά ροφήματα",
             *   "description": "Καφέδες, σοκολάτες"
@@ -33,9 +34,16 @@ class ProductController extends Controller
             $category->setName($name);
             $category->setDescription($description);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($category);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($category);
+                $em->flush();
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+            
             $rId = $category->getId();
             return new JsonResponse(array('response' => 'New category was created with id: ' . $rId));
         } else {
