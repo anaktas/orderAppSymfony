@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Category;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
      * @Route("/api/category/create")
@@ -45,7 +45,7 @@ class ProductController extends Controller
             }
             
             $rId = $category->getId();
-            return new JsonResponse(array('response' => 'New category was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'Μια νέα κατηγορία δημιουργήθηκε με id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       

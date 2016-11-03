@@ -51,7 +51,7 @@ class ProductController extends Controller
             }
             
             $rId = $product->getId();
-            return new JsonResponse(array('response' => 'New product was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'Ένα νέο προϊόν δημιουργήθηκε με id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       

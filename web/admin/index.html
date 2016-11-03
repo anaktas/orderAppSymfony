@@ -1,10 +1,368 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<title>Διαχειριστικό Πάνελ</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+  	<link rel="stylesheet" href="/admin/custom.css">
+  	<script src="/admin/app.js" type="text/javascript"></script>
 </head>
 <body>
+	<div class="float-to-right" width="100%">
+		<div style="display: inline-block;"><button type="button" class="btn btn-danger" onclick="logOut()">Log Out</button></div>
+	</div><br><br>
+	 <ul class="nav nav-tabs">
+	 	<li class="active"><a data-toggle="tab" href="#create_category">Δημιουργία Κατηγορίας Προϊόντων</a></li>
+	 	<li><a data-toggle="tab" href="#create_product">Δημιουργία Προϊόντων</a></li>
+	 	<li><a data-toggle="tab" href="#create_store">Διαχείριση Aποθήκης Προϊόντων</a></li>
+	 	<li><a data-toggle="tab" href="#create_role">Δημιουργία Ρόλων</a></li>
+	 	<li><a data-toggle="tab" href="#create_user">Δημιουργία Χρηστών</a></li>
+	</ul>
 
+	<div class="tab-content">
+		<div id="create_category" class="tab-pane fade in active">
+			<!-- CREATE CATEGORY CONTROL PANEL !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Δημιουργία Κατηγορίας Προϊόντων</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		
+					        		<div class="form-group">
+						            	<label class="col-md-2 control-label">Ονομασία:</label>
+						            	<div class="col-md-10">
+						            		<input id="categoryName" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Περιγραφή:</label>
+						            	<div class="col-md-10">
+						            		<input id="categoryDescription" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="createCategory()">Δημιουργία</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="viewCategories()">Προβολή Διαθέσιμων Κατηγοριών</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusLabelCreateCategory" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="table-responsive">
+				<table id="categoriesTable" class="table display cell-border" cellspacing="0" width="100%">
+				</table>
+			</div>
+	  	</div> <!-- END TAB CREATE CTEGORY!-->
+	  	<div id="create_product" class="tab-pane fade">
+	    	<!-- CREATE PRODUCT CONTROL PANEL !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Δημιουργία Προϊόντος</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		
+					        		<div class="form-group">
+						            	<label class="col-md-2 control-label">Ονομασία:</label>
+						            	<div class="col-md-10">
+						            		<input id="productName" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Περιγραφή:</label>
+						            	<div class="col-md-10">
+						            		<input id="productDescription" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Τιμή:</label>
+						            	<div class="col-md-10">
+						            		<input id="productPrice" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατηγορία:</label>
+						            	<div class="col-md-10">
+						            		<select class="input-small form-control-static" id="selectedCategories">
+										        
+										    </select>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="refreshCategories()">Ανανέωση λίστας κατηγοριών</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="createProduct()">Δημιουργία</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="viewProducts()">Προβολή Διαθέσιμων Προϊόντων</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση Εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusLabelCreateProduct" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table id="productsTable" class="table display cell-border" cellspacing="0" width="100%">
+				</table>
+			</div>
+	  	</div> <!-- END TAB CREATE PRODUCT !-->
+	  	<div id="create_store" class="tab-pane fade">
+	    	<!-- CREATE STORE CONTROL PANEL !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Διαχείριση Aποθήκης Προϊόντων</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		
+					        		<div class="form-group">
+						            	<label class="col-md-2 control-label">Προϊόν:</label>
+						            	<div class="col-md-10">
+						            		<select class="input-small form-control-static" id="selectedProduct">
+										        
+										    </select>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="refreshCategories()">Ανανέωση λίστας προϊόντων</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Ποσότητα:</label>
+						            	<div class="col-md-10">
+						            		<input id="quantity" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="createQuantity()">Αποθήκευση</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusCreateQuantity" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+	  	</div> <!-- END TAB CREATE STORE !-->
+	  	<div id="create_role" class="tab-pane fade">
+	    	<!-- CREATE ROLE CONTROL PANEL !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Δημιουργία Ρόλων</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		
+					        		<div class="form-group">
+						            	<label class="col-md-2 control-label">Ονομασία:</label>
+						            	<div class="col-md-10">
+						            		<input id="roleName" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Περιγραφή:</label>
+						            	<div class="col-md-10">
+						            		<input id="roleDescription" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="createRole()">Δημιουργία</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusCreateRole" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+	  	</div> <!-- END TAB CREATE ROLE !-->
+	  	<div id="create_user" class="tab-pane fade">
+			<!-- CREATE USER CONTROL PANEL !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Δημιουργία Χρηστών</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Όνομα Χρήστη:</label>
+						            	<div class="col-md-10">
+						            		<input id="username" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κωδικός Πρόσβασης:</label>
+						            	<div class="col-md-10">
+						            		<input id="password" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Ρόλος:</label>
+						            	<div class="col-md-10">
+						            		<select class="input-small form-control-static" id="selectedRole">
+										        
+										    </select>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="refreshRoles()">Ανανέωση Λίστας Ρόλων</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="createUser()">Δημιουργία</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση Εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusCreateUser" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+	  	</div>
+	</div>
+
+	<!-- Alert Modal -->
+	<div id="myAlertModal" class="modal fade">
+		 <div class="modal-dialog modal-md">
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Μήνυμα</h4>
+	      </div>
+	      <div class="modal-body">
+			<p id="alertMsg"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
 </body>
 </html>
