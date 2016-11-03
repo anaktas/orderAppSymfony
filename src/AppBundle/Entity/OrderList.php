@@ -3,10 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * OrderList
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="order_list")
  */
 class OrderList
@@ -36,6 +38,12 @@ class OrderList
      * @ORM\Column(type="string", length=255)
      */
     private $status;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $ts;
 
 
     /**
@@ -118,6 +126,25 @@ class OrderList
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get ts
+     *
+     * @return \DateTime
+     */
+    public function getTs()
+    {
+        return $this->ts;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function createTs()
+    {
+        $this->ts = new \DateTime();
     }
 }
 

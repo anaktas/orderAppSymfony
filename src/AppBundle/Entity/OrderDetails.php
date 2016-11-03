@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OrderDetails
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="order_details")
  */
 class OrderDetails
@@ -48,6 +49,12 @@ class OrderDetails
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $ts;
 
 
     /**
@@ -178,6 +185,25 @@ class OrderDetails
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Get ts
+     *
+     * @return \DateTime
+     */
+    public function getTs()
+    {
+        return $this->ts;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function createTs()
+    {
+        $this->ts = new \DateTime();
     }
 }
 
