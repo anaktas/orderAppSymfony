@@ -48,7 +48,7 @@ class UserController extends Controller
             }
             
             $rId = $user->getId();
-            return new JsonResponse(array('response' => 'New user was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'Ένας νέος χρήστης δημιουργήθηκε με id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       

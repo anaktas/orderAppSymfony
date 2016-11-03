@@ -45,7 +45,7 @@ class StoreController extends Controller
             }
             
             $rId = $store->getId();
-            return new JsonResponse(array('response' => 'A quantity for a product was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'Μια ποσότητα για ένα προϊόν καταχωρήθηκε στη βάση με id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
@@ -71,7 +71,7 @@ class StoreController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT s.pid, s.quantity FROM AppBundle:Store s WHERE s.pid = :pid');
+                $query = $em->createQuery('SELECT s.id, s.pid, s.quantity FROM AppBundle:Store s WHERE s.pid = :pid');
                 $query->setParameter('pid', $pid);
                 $quantities = $query->getResult();
 
@@ -84,6 +84,23 @@ class StoreController extends Controller
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }          
+    }
+
+    /**
+     * @Route("/api/store/getall")
+     */
+    public function getAllQuantitiesAction(Request $request)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery('SELECT s.id, s.pid, s.quantity FROM AppBundle:Store s');
+            $quantities = $query->getResult();
+            return new JsonResponse(array('response' => $quantities));
+        } catch(\Doctrine\ORM\ORMException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        }           
     }
 }
 

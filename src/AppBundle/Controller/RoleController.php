@@ -45,7 +45,7 @@ class RoleController extends Controller
             }
             
             $rId = $role->getId();
-            return new JsonResponse(array('response' => 'New role was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'Ένας νέος ρόλος δημιουργήθηκε με id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
