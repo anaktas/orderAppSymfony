@@ -58,19 +58,50 @@ class ProductController extends Controller
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery('SELECT c FROM AppBundle:Category c');
+            $query = $em->createQuery('SELECT c.id, c.name, c.description FROM AppBundle:Category c');
             $categories = $query->getResult();
 
-            if(!$categories) {
-                return new JsonResponse(array('response' => $categories));
-            } else {
-                return new JsonResponse(array('response' => 'Empty result'));
-            }
+            return new JsonResponse(array('response' => $categories));
         } catch(\Doctrine\ORM\ORMException $e) {
             return new JsonResponse(array('error' => $e->getMessage()));
         } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
             return new JsonResponse(array('error' => $e->getMessage()));
         }     
+    }
+
+    /**
+     * @Route("/api/category/getbyid")
+     */
+    public function getCategoriesByIdAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "id": 3
+            * }
+            */
+            $params = json_decode($content, true);
+            $id = $params['id'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT c.id, c.name, c.description FROM AppBundle:Category c WHERE c.id = :id');
+                $query->setParameter('id', $id);
+                $categories = $query->getResult();
+
+                return new JsonResponse(array('response' => $categories));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }   
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }          
     }
 }
 

@@ -48,4 +48,57 @@ class CustomerTableController extends Controller
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
     }
+
+    /**
+     * @Route("/api/table/getall")
+     */
+    public function getAllTablesAction(Request $request)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery('SELECT t.tableNumber, t.status FROM AppBundle:CustomerTable t');
+            $tables = $query->getResult();
+
+            return new JsonResponse(array('response' => $tables));
+        } catch(\Doctrine\ORM\ORMException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        }     
+    }
+
+    /**
+     * @Route("/api/table/getstatusbynumber")
+     */
+    public function getTableStatusByNumberAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "tableNumber": 3
+            * }
+            */
+            $params = json_decode($content, true);
+            $tableNumber = $params['tableNumber'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT t.tableNumber, t.status FROM AppBundle:CustomerTable t WHERE t.tableNumber = :tableNumber');
+                $query->setParameter('tableNumber', $tableNumber);
+                $status = $query->getResult();
+
+                return new JsonResponse(array('response' => $status));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }   
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }          
+    }
 }

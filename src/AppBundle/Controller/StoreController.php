@@ -50,5 +50,40 @@ class StoreController extends Controller
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
     }
+
+    /**
+     * @Route("/api/store/getbypid")
+     */
+    public function getQuantitiesByProductIdAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "pid": 3
+            * }
+            */
+            $params = json_decode($content, true);
+            $pid = $params['pid'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT s.pid, s.quantity FROM AppBundle:Store s WHERE s.pid = :pid');
+                $query->setParameter('pid', $pid);
+                $quantities = $query->getResult();
+
+                return new JsonResponse(array('response' => $quantities));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }   
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }          
+    }
 }
 
