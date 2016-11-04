@@ -4,18 +4,64 @@ $(document).ready(function() {
 	var quantitiesTable;
 	var rolesTable;
 	var usersTable;
+	$('#pwd').bind('keypress', {}, keypressInBox);
 });
+
+// Pressing the enter in the search box
+function keypressInBox(e) {
+	var code = (e.keyCode ? e.keyCode : e.which);
+	if (code == 13) {
+		e.preventDefault();
+		doLogin();
+	}
+}
 
 function logOut() {
 	console.log("logout.");
 	$('#loginForm').removeClass('hidden');
 	$('#adminPanel').addClass('hidden');
+	$('#responseLabel').html("");
 }
 
 function doLogin() {
 	console.log("login.");
-	$('#adminPanel').removeClass('hidden');
-	$('#loginForm').addClass('hidden');
+	var username = $('#usr').val();
+	var password = $('#pwd').val();
+	var roleId = 1;
+		
+	var params = {};
+	params.username = username;
+	params.password = password;
+	params.roleId = roleId;
+	var jsonRequest = JSON.stringify(params);
+	console.log(jsonRequest);
+	$('#responseLabel').html("Παρακαλώ περιμένετε...");
+
+	$.ajax({
+		url: "/api/user/login",
+		type: "POST",
+		async: true,
+		dataType: "json",
+		data: jsonRequest,
+		success: function(response) {
+			if (response.response == "match") {
+				$('#adminPanel').removeClass('hidden');
+				$('#loginForm').addClass('hidden');
+			} else {
+				$('#responseLabel').html("Έχετε πληκτρολογήσει ή λάθος κωδικό, ή λάθος όνομα χρήστη, ή ο χρήστης δεν έχει δικαίωμα χρήσης του διαχειριστικού πάνελ.");
+			}
+		},
+		failure: function(errorMsg) {
+			$('#alertMsg').html('<div class=\"alert alert-danger\"><strong>AJAX αποτυχία.</strong></div>');
+			$("#myAlertModal").modal("show");
+		},
+		error: function(jqXHR, testStatus, errorThrown) {
+			console.log(jqXHR.status);
+			// In case of error, change the execution status
+			$('#alertMsg').html('<div class=\"alert alert-danger\"><strong>' + jqXHR.status + ' - AJAX σφάλμα.</strong></div>');
+			$("#myAlertModal").modal("show");
+		}
+	});
 }
 
 function createCategory() {
@@ -648,7 +694,7 @@ function createUser() {
   	$("#statusCreateUser").html("Εκτέλεση. Παρακαλώ περιμένετε....");
   	
   	var username = $("#username").val();
-  	var password = $("#username").val();
+  	var password = $("#password").val();
   	var roleId = parseInt($("#selectedRole option:selected").val());
 	var params = {};
 	params.username = username;
