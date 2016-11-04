@@ -30,8 +30,8 @@ function doLogin() {
 	var roleId = 1;
 		
 	var params = {};
-	params.username = username;
-	params.password = password;
+	params.username = username.trim();
+	params.password = password.trim();
 	params.roleId = roleId;
 	var jsonRequest = JSON.stringify(params);
 	console.log(jsonRequest);
@@ -72,8 +72,8 @@ function createCategory() {
 	var description = $("#categoryDescription").val();
 		
 	var params = {};
-	params.name = name;
-	params.description = description;
+	params.name = name.trim();
+	params.description = description.trim();
 	var jsonRequest = JSON.stringify(params);
 	console.log(jsonRequest);
 
@@ -162,8 +162,8 @@ function createProduct() {
   	var price = parseFloat($("#productPrice").val());
   	var cid = parseInt($("#selectedCategories option:selected").val());
 	var params = {};
-	params.name = name;
-	params.description = description;
+	params.name = name.trim();
+	params.description = description.trim();
 	params.price = price;
 	params.cid = cid;
 	var jsonRequest = JSON.stringify(params);
@@ -565,8 +565,8 @@ function createRole() {
   	var rolename = $("#roleName").val();
   	var description = $("#roleDescription").val();
 	var params = {};
-	params.rolename = rolename;
-	params.description = description;
+	params.rolename = rolename.trim();
+	params.description = description.trim();
 	
 	var jsonRequest = JSON.stringify(params);
 	console.log(jsonRequest);
@@ -697,8 +697,8 @@ function createUser() {
   	var password = $("#password").val();
   	var roleId = parseInt($("#selectedRole option:selected").val());
 	var params = {};
-	params.username = username;
-	params.password = password;
+	params.username = username.trim();
+	params.password = password.trim();
 	params.roleId = roleId;
 	var jsonRequest = JSON.stringify(params);
 	console.log(jsonRequest);
