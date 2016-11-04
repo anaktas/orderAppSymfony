@@ -82,5 +82,76 @@ class OrderingController extends Controller
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
     }
+
+    /**
+     * @Route("/api/ordering/getopened")
+     */
+    public function getOpenOrdersAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "id": 1
+            * }
+            */
+            $params = json_decode($content, true);
+            $id = $params['id'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT o.id FROM AppBundle:OrderList o WHERE o.id = :id AND o.status = :status');
+                $query->setParameter('id', $id);
+                $query->setParameter('status', 'opened');
+                $orders = $query->getResult();
+
+                return new JsonResponse(array('response' => $orders));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
+
+    /**
+     * @Route("/api/ordering/getopeneddetails")
+     */
+    public function getOpenOrderDetailsAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "id": 1
+            * }
+            */
+            $params = json_decode($content, true);
+            $id = $params['id'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT (SELECT p.name FROM AppBundle:Product p WHERE p.id = o.pid) as name, o.quantity, o.description FROM AppBundle:OrderDetails o WHERE o.orderListId = :id');
+                $query->setParameter('id', $id);
+                $orderDetails = $query->getResult();
+
+                return new JsonResponse(array('response' => $orderDetails));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
 }
 

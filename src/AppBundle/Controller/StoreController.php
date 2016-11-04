@@ -71,7 +71,7 @@ class StoreController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT s.id, s.pid, s.quantity FROM AppBundle:Store s WHERE s.pid = :pid');
+                $query = $em->createQuery('SELECT s.id, (SELECT p.name FROM AppBundle:Product p WHERE p.id = s.pid) as productName, s.quantity FROM AppBundle:Store s WHERE s.pid = :pid');
                 $query->setParameter('pid', $pid);
                 $quantities = $query->getResult();
 
@@ -93,7 +93,7 @@ class StoreController extends Controller
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery('SELECT s.id, s.pid, s.quantity FROM AppBundle:Store s');
+            $query = $em->createQuery('SELECT s.id,  (SELECT p.name FROM AppBundle:Product p WHERE p.id = s.pid) as productName, s.quantity FROM AppBundle:Store s');
             $quantities = $query->getResult();
             return new JsonResponse(array('response' => $quantities));
         } catch(\Doctrine\ORM\ORMException $e) {

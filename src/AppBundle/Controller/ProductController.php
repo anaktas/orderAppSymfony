@@ -77,7 +77,7 @@ class ProductController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, p.cid FROM AppBundle:Product p WHERE p.id = :id');
+                $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, (SELECT c.name FROM AppBundle:Category c WHERE c.id = p.cid) as categoryName FROM AppBundle:Product p WHERE p.id = :id');
                 $query->setParameter('id', $id);
                 $product = $query->getResult();
 
@@ -99,7 +99,7 @@ class ProductController extends Controller
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, p.cid FROM AppBundle:Product p');
+            $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, (SELECT c.name FROM AppBundle:Category c WHERE c.id = p.cid) as categoryName FROM AppBundle:Product p');
             $products = $query->getResult();
             //$products = $em->getRepository('AppBundle:Product')->getAll();
 
@@ -131,7 +131,7 @@ class ProductController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, p.cid FROM AppBundle:Product p WHERE p.cid = :cid');
+                $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, (SELECT c.name FROM AppBundle:Category c WHERE c.id = p.cid) as categoryName FROM AppBundle:Product p WHERE p.cid = :cid');
                 $query->setParameter('cid', $cid);
                 $products = $query->getResult();
 
@@ -166,7 +166,7 @@ class ProductController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, p.cid FROM AppBundle:Product p WHERE p.name LIKE :name');
+                $query = $em->createQuery('SELECT p.id, p.name, p.description, p.price, (SELECT c.name FROM AppBundle:Category c WHERE c.id = p.cid) as categoryName FROM AppBundle:Product p WHERE p.name LIKE :name');
                 $query->setParameter('name', $name);
                 $products = $query->getResult();
 

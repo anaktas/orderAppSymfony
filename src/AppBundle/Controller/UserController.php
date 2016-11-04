@@ -61,7 +61,7 @@ class UserController extends Controller
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery('SELECT u.id, u.username, u.roleId FROM AppBundle:User u');
+            $query = $em->createQuery('SELECT u.id, u.username, (SELECT r.rolename FROM AppBundle:Role r WHERE r.id = u.roleId) as roleName FROM AppBundle:User u');
             $users = $query->getResult();
 
             return new JsonResponse(array('response' => $users));
@@ -92,7 +92,7 @@ class UserController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT u.id, u.username, u.roleId FROM AppBundle:User u WHERE u.id = :id');
+                $query = $em->createQuery('SELECT u.id, u.username, (SELECT r.rolename FROM AppBundle:Role r WHERE r.id = u.roleId) as roleName FROM AppBundle:User u WHERE u.id = :id');
                 $query->setParameter('id', $id);
                 $user = $query->getResult();
 
@@ -127,7 +127,7 @@ class UserController extends Controller
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT u.id, u.username, u.roleId FROM AppBundle:User u WHERE u.username = :username');
+                $query = $em->createQuery('SELECT u.id, u.username, (SELECT r.rolename FROM AppBundle:Role r WHERE r.id = u.roleId) as roleName FROM AppBundle:User u WHERE u.username = :username');
                 $query->setParameter('username', $username);
                 $user = $query->getResult();
 

@@ -340,14 +340,14 @@ function viewProducts() {
 					var name = typeof obj['name'] === "undefined" ? "" : obj['name'];
 					var description = typeof obj['description'] === "undefined" ? "" : obj['description'];
 					var price = typeof obj['price'] === "undefined" ? "" : obj['price'];
-					var cid = typeof obj['cid'] === "undefined" ? "" : obj['cid'];
+					var categoryName = typeof obj['categoryName'] === "undefined" ? "" : obj['categoryName'];
 					// Create each table row
 					trHTML += '<tr>' + 
 							  '<td>' +  obj['id'] + '</td>' +
 							  '<td>' + name + '</td>' +
 							  '<td>' + description + '</td>' +
 							  '<td>' + price + '</td>' +
-							  '<td>' + cid + '</td>' +
+							  '<td>' + categoryName + '</td>' +
 							  '<td align=\"center\">' + '<button id=\"editBttn\" type=\"button\" class=\"btn btn-default\" onclick=\"editProduct()\">' + 
 							  '<span class=\"glyphicon glyphicon-edit\"></span></button>'
 							  '</td>' +
@@ -472,12 +472,12 @@ function viewQuantities() {
 						console.log(key + " : " + value);
 						obj[key] = value;
 					});
-					var pid = typeof obj['pid'] === "undefined" ? "" : obj['pid'];
+					var productName = typeof obj['productName'] === "undefined" ? "" : obj['productName'];
 					var quantity = typeof obj['quantity'] === "undefined" ? "" : obj['quantity'];
 					// Create each table row
 					trHTML += '<tr>' + 
 							  '<td>' +  obj['id'] + '</td>' +
-							  '<td>' + pid + '</td>' +
+							  '<td>' + productName + '</td>' +
 							  '<td>' + quantity + '</td>' +
 							  '<td align=\"center\">' + '<button id=\"editBttn\" type=\"button\" class=\"btn btn-default\" onclick=\"editProduct()\">' + 
 							  '<span class=\"glyphicon glyphicon-edit\"></span></button>'
@@ -781,12 +781,12 @@ function viewUsers() {
 						obj[key] = value;
 					});
 					var username = typeof obj['username'] === "undefined" ? "" : obj['username'];
-					var roleId = typeof obj['roleId'] === "undefined" ? "" : obj['roleId'];
+					var roleName = typeof obj['roleName'] === "undefined" ? "" : obj['roleName'];
 					// Create each table row
 					trHTML += '<tr>' + 
 							  '<td>' +  obj['id'] + '</td>' +
 							  '<td>' + username + '</td>' +
-							  '<td>' + roleId + '</td>' +
+							  '<td>' + roleName + '</td>' +
 							  '<td align=\"center\">' + '<button id=\"editBttn\" type=\"button\" class=\"btn btn-default\" onclick=\"editProduct()\">' + 
 							  '<span class=\"glyphicon glyphicon-edit\"></span></button>'
 							  '</td>' +

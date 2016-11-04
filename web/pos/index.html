@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Πάνελ Προετοιμασία/Πληρωμών</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" href="/pos/custom.css">
+</head>
+<body>
+
+<div class="float-to-right" width="100%">
+	<div style="display: inline-block;"><button type="button" class="btn btn-danger" onclick="logOut()">Έξοδος</button></div>
+</div><br><br>
+<ul class="nav nav-tabs">
+	<li class="active"><a data-toggle="tab" href="#prepare">Προετοιμασία</a></li>
+ 	<li><a data-toggle="tab" href="#pay">Πληρωμή</a></li>
+</ul>
+
+<div class="tab-content">
+	<div id="prepare" class="tab-pane fade in active">
+
+		<!-- ACTUAL CONTROL !-->
+		<div class="container">
+			<div class="row">
+				<!-- ORDER QUEUE !-->
+				<div id="orderQueue" class="col-lg-6 scrollable-container">
+					<table width="500px">
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #1</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #2</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" class="btn btn-success btn-block"><h3>ORDER #3</h3></button>
+							</td>
+						</tr>
+					</table>
+				</div> <!-- END OF ORDER QUEUE !-->
+				<!-- ORDER DETAILS !-->
+				<div id="orderDetails" class="col-lg-6">
+					<table border="1" width="400px">
+						<thead>
+							<tr>
+								<th><h3><b>Προϊόν</b></h3></th>
+								<th><h3><b>Ποσότητα</b></h3></th>
+								<th><h3><b>Πρόσθετα</b></h3></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><h3>Coffe</h3></td>
+								<td><h3>2</h3></td>
+								<td><h3>Sweet, Milk</h3></td>
+							</tr>
+							<tr>
+								<td><h3>Chocolate</h3></td>
+								<td><h3>1</h3></td>
+								<td><h3>Bitter</h3></td>
+							</tr>
+							<tr>
+								<td><h3>Beer</h3></td>
+								<td><h3>1</h3></td>
+								<td><h3></h3></td>
+							</tr>
+							<tr>
+								<td><h3>Whiskey</h3></td>
+								<td><h3>2</h3></td>
+								<td><h3>Ice</h3></td>
+							</tr>
+						</tbody>
+					</table>
+					<br/>
+					<button type="button" class="btn btn-info" onclick="createCategory()"><h3>ΕΤΟΙΜΟ</h3></button>
+					<button type="button" class="btn btn-danger" onclick="createCategory()"><h3>ΑΚΥΡΩΣΗ</h3></button>
+				</div> <!-- END OF ORDER DETAILS !-->
+			</div>
+		</div>
+
+	</div>
+
+	<div id="pay" class="tab-pane fade">
+		
+	</div>
+</div>
+
+<!-- Alert Modal -->
+<div id="myAlertModal" class="modal fade">
+	<div class="modal-dialog modal-md">
+    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Μήνυμα</h4>
+	      </div>
+	      <div class="modal-body">
+			<p id="alertMsg"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	</div>
+</div>
+
+</body>
+</html>
