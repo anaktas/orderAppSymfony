@@ -12,6 +12,23 @@
 </head>
 <body>
 
+<div id="loginForm">
+	<div class="container">
+	    <div class="row">
+	        <div class="col-sm-6 col-md-4 col-md-offset-4">
+	            <h1 class="text-center login-title">Είσοδος</h1>
+	            <div class="account-wall">
+	                <input id="usr" type="text" class="form-control" placeholder="Όνομα Χρήστη" required autofocus>
+	                <input id="pwd" type="password" class="form-control" placeholder="Κωδικός πρόσβασης" required>
+	                <button class="btn btn-lg btn-primary btn-block" onclick="doLogin()" id="btnLogin">Είσοδος</button>
+	            </div>
+	            <h3 class="text-center login-title" id="responseLabel" style="color:red;"></h3>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<div id="posPanel" class="hidden">
 <div class="float-to-right" width="100%">
 	<div style="display: inline-block;"><button type="button" class="btn btn-danger" onclick="logOut()">Έξοδος</button></div>
 </div><br><br>
@@ -50,8 +67,112 @@
 	</div>
 
 	<div id="pay" class="tab-pane fade">
-		
+		<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Επιλέξτε τραπέζι</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		<div class="form-group">
+						            	<label class="col-md-2 control-label">Αριθμός τραπεζιού:</label>
+						            	<div class="col-md-10">
+						            		<select class="input-small form-control-static" id="selectedTable">
+										        
+										    </select>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="refreshTableNumbers()">Ανανέωση Λίστας Τραπεζιών</button>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="viewTableOrders()">Εμφάνιση Λεπτομερειών</button>
+						            	</div>
+						            </div>
+						            
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση Εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusViewTableOrders" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Roles !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Λεπτομέρειες παραγγελίας</h3>
+					        </div>
+
+					        <div class="panel-body">
+
+					        	<form class="form-horizontal row-border">
+
+					        		<div class="form-group">
+					        			
+						            	<div class="col-md-10">
+							        		<table id="tableOrdersTable" class="table display cell-border" cellspacing="0" width="100%">
+										       	
+									        </table>
+								        </div>
+							        </div>
+					        		
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">
+						            	</label>
+						            	<div class="col-md-10">
+						            		<div id="tableOrdersButtonArea"></div>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"><h3><b>Σύνολο:</b></h3></label>
+						            	<div class="col-md-10">
+						            		<p id="totalPrice" class="form-control-static"></p>
+						            	</div>
+						            </div>
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση Εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusTableOrderDetails" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
 	</div>
+</div>
 </div>
 
 <!-- Alert Modal -->

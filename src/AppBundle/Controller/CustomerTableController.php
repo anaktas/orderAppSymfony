@@ -29,6 +29,7 @@ class CustomerTableController extends Controller
             $params = json_decode($content, true);
             $number = $params['number'];
 
+            $customerTable->setTableId(0);
             $customerTable->setTableNumber($number);
             $customerTable->setStatus("free");
 
@@ -43,7 +44,7 @@ class CustomerTableController extends Controller
             }
             
             $rId = $customerTable->getId();
-            return new JsonResponse(array('response' => 'New customer table was created with id: ' . $rId));
+            return new JsonResponse(array('response' => 'Ένα νέο τραπέζι έχει δημιουργηθεί με id: ' . $rId));
         } else {
             return new JsonResponse(array('error' => 'Empty request.'));
         }       

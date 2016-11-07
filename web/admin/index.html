@@ -40,6 +40,7 @@
 	 	<li><a data-toggle="tab" href="#create_store">Διαχείριση Aποθήκης Προϊόντων</a></li>
 	 	<li><a data-toggle="tab" href="#create_role">Δημιουργία Ρόλων</a></li>
 	 	<li><a data-toggle="tab" href="#create_user">Δημιουργία Χρηστών</a></li>
+	 	<li><a data-toggle="tab" href="#create_table">Δημιουργία Τραπεζιού</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -391,6 +392,53 @@
 				</table>
 			</div>
 	  	</div> <!-- END TAB CREATE USER !-->
+	  	<div id="create_table" class="tab-pane fade">
+			<!-- CREATE TABLE CONTROL PANEL !-->
+	    	<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6 col-xs-12">
+						
+						<div class="panel panel-default">
+							
+							<div class="panel-heading clearfix">
+					        	<h3 class="panel-title">Δημιουργία Χρηστών</h3>
+					        </div>
+
+					        <div class="panel-body">
+					        	
+					        	<form class="form-horizontal row-border">
+					        		
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Αριθμός Τραπεζιού:</label>
+						            	<div class="col-md-10">
+						            		<input id="tableNumber" name="regular" class="form-control" type="text">
+						            	</div>
+						            </div>
+						            
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label"></label>
+						            	<div class="col-md-10">
+						            		<button type="button" class="btn btn-default" onclick="createTable()">Δημιουργία</button>
+						            	</div>
+						            </div>
+						            
+						            <div class="form-group">
+						            	<label class="col-md-2 control-label">Κατάσταση Εκτέλεσης:</label>
+						            	<div class="col-md-10">
+						            		<p id="statusCreateTable" class="form-control-static"></p>
+						            	</div>
+						            </div>
+
+					        	</form>
+
+					        </div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+	  	</div> <!-- END TAB CREATE TABLE !-->
 	</div> <!-- END OF TABS CONTROLLER !-->
 </div>
 

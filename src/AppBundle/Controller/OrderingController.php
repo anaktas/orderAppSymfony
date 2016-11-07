@@ -218,5 +218,153 @@ class OrderingController extends Controller
             return new JsonResponse(array('error' => 'Empty request.'));
         }       
     }
+
+    /**
+     * @Route("/api/ordering/gettableorders")
+     */
+    public function getTableOrdersAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "tableNumber": 1
+            * }
+            */
+            $params = json_decode($content, true);
+            $tableNumber = $params['tableNumber'];
+            $tableOrders = array();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT ol.id FROM AppBundle:OrderList ol WHERE ol.tableId = :tableNumber AND ol.status = :status');
+                //$query = $em->createQuery('SELECT (SELECT p.name FROM AppBundle:Product p WHERE p.id = o.pid) as name, o.quantity, o.description FROM AppBundle:OrderDetails o WHERE o.orderListId = :id)');
+                $query->setParameter('tableNumber', $tableNumber);
+                $query->setParameter('status', 'ready');
+                $orderNumbers = $query->getResult();
+
+                for ($i = 0; $i < count($orderNumbers); $i++) {
+                    $em = $this->getDoctrine()->getManager();
+                    $query = $em->createQuery('SELECT (SELECT p.name FROM AppBundle:Product p WHERE p.id = o.pid) as name, o.quantity, o.description, (SELECT (o.quantity * p2.price) FROM AppBundle:Product p2 WHERE p2.id = o.pid) as totalPrice FROM AppBundle:OrderDetails o WHERE o.orderListId = :id');
+                    $query->setParameter('id', $orderNumbers[$i]['id']);
+                    $orderDetails = $query->getResult();
+                    array_push($tableOrders, $orderDetails);
+                }
+
+                return new JsonResponse(array('response' => $tableOrders));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
+
+    /**
+     * @Route("/api/ordering/complete")
+     */
+    public function completeAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "tableNumber": 1
+            * }
+            */
+            $params = json_decode($content, true);
+            $tableNumber = $params['tableNumber'];
+            $tableOrders = array();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT ol.id FROM AppBundle:OrderList ol WHERE ol.tableId = :tableNumber AND ol.status = :status');
+                //$query = $em->createQuery('SELECT (SELECT p.name FROM AppBundle:Product p WHERE p.id = o.pid) as name, o.quantity, o.description FROM AppBundle:OrderDetails o WHERE o.orderListId = :id)');
+                $query->setParameter('tableNumber', $tableNumber);
+                $query->setParameter('status', 'ready');
+                $orderNumbers = $query->getResult();
+
+                for ($i = 0; $i < count($orderNumbers); $i++) {
+                    $em = $this->getDoctrine()->getManager();
+                    $orderList = $em->getRepository('AppBundle:OrderList')->find($orderNumbers[$i]['id']);
+
+                    if (!$orderList) {
+                        # code...
+                        return new JsonResponse(array('response' => 'Error'));
+                    }
+
+                    $orderList->setStatus('completed');
+                    $em->flush();                    
+                }
+
+                return new JsonResponse(array('response' => 'OK'));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
+
+    /**
+     * @Route("/api/ordering/cancel")
+     */
+    public function cancelAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "tableNumber": 1
+            * }
+            */
+            $params = json_decode($content, true);
+            $tableNumber = $params['tableNumber'];
+            $tableOrders = array();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery('SELECT ol.id FROM AppBundle:OrderList ol WHERE ol.tableId = :tableNumber AND ol.status = :status');
+                //$query = $em->createQuery('SELECT (SELECT p.name FROM AppBundle:Product p WHERE p.id = o.pid) as name, o.quantity, o.description FROM AppBundle:OrderDetails o WHERE o.orderListId = :id)');
+                $query->setParameter('tableNumber', $tableNumber);
+                $query->setParameter('status', 'ready');
+                $orderNumbers = $query->getResult();
+
+                for ($i = 0; $i < count($orderNumbers); $i++) {
+                    $em = $this->getDoctrine()->getManager();
+                    $orderList = $em->getRepository('AppBundle:OrderList')->find($orderNumbers[$i]['id']);
+
+                    if (!$orderList) {
+                        # code...
+                        return new JsonResponse(array('response' => 'Error'));
+                    }
+
+                    $orderList->setStatus('cancel');
+                    $em->flush();                    
+                }
+
+                return new JsonResponse(array('response' => 'OK'));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
 }
 

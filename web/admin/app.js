@@ -865,3 +865,44 @@ function refreshRoles() {
 		}
 	});
 }
+
+function createTable() {
+	console.log("Inside createTable()");
+  	$("#statusCreateTable").html("Εκτέλεση. Παρακαλώ περιμένετε....");
+  	
+  	var number = $("#tableNumber").val();
+  	
+	var params = {};
+	params.number = parseInt(number.trim());
+	
+	var jsonRequest = JSON.stringify(params);
+	console.log(jsonRequest);
+
+	$.ajax({
+		url: "/api/table/create",
+		type: "POST",
+		async: true,
+		dataType: "json",
+		data: jsonRequest,
+		success: function(response) {
+			console.log("Inside AJAX");
+			$("#statusCreateTable").html("Εντάξει.");		
+			var stringResponse = JSON.stringify(response);
+			console.log(stringResponse);
+			$('#alertMsg').html('<div class=\"alert alert-info\"><strong>' + response.response + '</strong></div>');
+			$("#myAlertModal").modal("show");
+		},	
+		failure: function(errorMsg) {
+			$("#statusCreateTable").html("AJAX αποτυχία.");
+			$('#alertMsg').html('<div class=\"alert alert-danger\"><strong>AJAX αποτυχία.</strong></div>');
+			$("#myAlertModal").modal("show");
+		},
+		error: function(jqXHR, testStatus, errorThrown) {
+			console.log(jqXHR.status);
+			// In case of error, change the execution status
+			$("#statusCreateTable").html("AJAX σφάλμα.");
+			$('#alertMsg').html('<div class=\"alert alert-danger\"><strong>' + jqXHR.status + ' - AJAX σφάλμα.</strong></div>');
+			$("#myAlertModal").modal("show");
+		}
+	});
+}
