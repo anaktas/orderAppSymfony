@@ -139,7 +139,6 @@ class OrderList
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function createTs()
     {

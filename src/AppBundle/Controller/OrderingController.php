@@ -88,34 +88,17 @@ class OrderingController extends Controller
      */
     public function getOpenOrdersAction(Request $request)
     {
-        $params = array();
-        $content = $request->getContent();
-        if (!empty($content))
-        {
-            /*
-            * EXAMPLE:
-            * {
-            *   "id": 1
-            * }
-            */
-            $params = json_decode($content, true);
-            $id = $params['id'];
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery('SELECT o.id FROM AppBundle:OrderList o WHERE o.status = :status');
+            $query->setParameter('status', 'opened');
+            $orders = $query->getResult();
 
-            try {
-                $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery('SELECT o.id FROM AppBundle:OrderList o WHERE o.id = :id AND o.status = :status');
-                $query->setParameter('id', $id);
-                $query->setParameter('status', 'opened');
-                $orders = $query->getResult();
-
-                return new JsonResponse(array('response' => $orders));
-            } catch(\Doctrine\ORM\ORMException $e) {
-                return new JsonResponse(array('error' => $e->getMessage()));
-            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
-                return new JsonResponse(array('error' => $e->getMessage()));
-            }
-        } else {
-            return new JsonResponse(array('error' => 'Empty request.'));
+            return new JsonResponse(array('response' => $orders));
+        } catch(\Doctrine\ORM\ORMException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
         }       
     }
 
@@ -144,6 +127,88 @@ class OrderingController extends Controller
                 $orderDetails = $query->getResult();
 
                 return new JsonResponse(array('response' => $orderDetails));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
+
+    /**
+     * @Route("/api/ordering/setready")
+     */
+    public function setOrderToReadyAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "id": 1   
+            * }
+            */
+            $params = json_decode($content, true);
+            $id = $params['id'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $orderList = $em->getRepository('AppBundle:OrderList')->find($id);
+
+                if (!$orderList) {
+                    # code...
+                    return new JsonResponse(array('response' => 'Error'));
+                }
+
+                $orderList->setStatus('ready');
+                $em->flush();
+
+                return new JsonResponse(array('response' => 'OK'));
+            } catch(\Doctrine\ORM\ORMException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+                return new JsonResponse(array('error' => $e->getMessage()));
+            }
+        } else {
+            return new JsonResponse(array('error' => 'Empty request.'));
+        }       
+    }
+
+    /**
+     * @Route("/api/ordering/setcancelled")
+     */
+    public function setOrderToCancelledAction(Request $request)
+    {
+        $params = array();
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            /*
+            * EXAMPLE:
+            * {
+            *   "id": 1   
+            * }
+            */
+            $params = json_decode($content, true);
+            $id = $params['id'];
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $orderList = $em->getRepository('AppBundle:OrderList')->find($id);
+
+                if (!$orderList) {
+                    # code...
+                    return new JsonResponse(array('response' => 'Error'));
+                }
+
+                $orderList->setStatus('canceled');
+                $em->flush();
+
+                return new JsonResponse(array('response' => 'OK'));
             } catch(\Doctrine\ORM\ORMException $e) {
                 return new JsonResponse(array('error' => $e->getMessage()));
             } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {

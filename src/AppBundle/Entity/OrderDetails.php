@@ -199,7 +199,6 @@ class OrderDetails
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function createTs()
     {
