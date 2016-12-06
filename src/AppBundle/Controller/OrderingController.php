@@ -103,6 +103,25 @@ class OrderingController extends Controller
     }
 
     /**
+     * @Route("/api/ordering/getready")
+     */
+    public function getReadyOrdersAction(Request $request)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery('SELECT o.id, o.tableId FROM AppBundle:OrderList o WHERE o.status = :status');
+            $query->setParameter('status', 'ready');
+            $orders = $query->getResult();
+
+            return new JsonResponse(array('response' => $orders));
+        } catch(\Doctrine\ORM\ORMException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        } catch(\Doctrine\DBAL\Exception\NotNullConstraintViolationException $e) {
+            return new JsonResponse(array('error' => $e->getMessage()));
+        }       
+    }
+
+    /**
      * @Route("/api/ordering/getopeneddetails")
      */
     public function getOpenOrderDetailsAction(Request $request)
