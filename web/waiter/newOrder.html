@@ -27,7 +27,61 @@
 				
 			</select>
 		</fieldset>
-		<a href="#" class="ui-btn">Συνέχεια</a>
+		<a href="#categories" class="ui-btn" onclick="setTableNumber()">Συνέχεια</a>
+	</div>
+	<!-- FOOTER !-->
+	<div data-role="footer">
+		<h1><a href="/waiter" class="ui-btn">Επιστροφή στην αρχική</a></h1>
+	</div>
+</div>
+
+<div data-role="page" id="categories">
+	<!-- HEADER !-->
+	<div data-role="header">
+		<h1>Επιλέξτε Κατηγορία</h1>
+	</div>
+	<!-- MAIN CONTENT !-->
+	<div data-role="main" class="ui-content">
+		<ul data-role="listview" id="categoriesList"></ul>
+	</div>
+	<!-- FOOTER !-->
+	<div data-role="footer">
+		<h1><a href="/waiter" class="ui-btn">Επιστροφή στην αρχική</a></h1>
+	</div>
+</div>
+
+<div data-role="page" id="products">
+	<!-- HEADER !-->
+	<div data-role="header">
+		<h1>Επιλέξτε Προϊόν</h1>
+	</div>
+	<!-- MAIN CONTENT !-->
+	<div data-role="main" class="ui-content">
+		<ul data-role="listview" id="productsList"></ul>
+	</div>
+	<!-- FOOTER !-->
+	<div data-role="footer">
+		<h1><a href="/waiter" class="ui-btn">Επιστροφή στην αρχική</a></h1>
+	</div>
+</div>
+
+<div data-role="page" id="product">
+	<!-- HEADER !-->
+	<div data-role="header">
+		<h1>Ολοκλήρωση</h1>
+	</div>
+	<!-- MAIN CONTENT !-->
+	<div data-role="main" class="ui-content">
+		<label for="theId"><strong>ID:</strong></label>
+		<p id="theID"></p>
+		<lable for="theName"><strong>Ονομασία:</strong></lable>
+		<p id="theName"></p>
+		<lable for="quantity"><strong>Ποσότητα:</strong></lable>
+		<input type="range" name="quantity" id="quantity" value="0" min="0" max="10">
+		<lable for="description"><strong>Λεπτομέρειες:</strong></lable>
+		<input type="text" name="description" id="description">
+		<a href="#categories" class="ui-btn" onclick="saveTempOrder()">Προσθήκη Προΐόντος</a>
+		<a href="#mainpage" class="ui-btn" onclick="completeOrder()">Ολοκλήρωση</a>
 	</div>
 	<!-- FOOTER !-->
 	<div data-role="footer">

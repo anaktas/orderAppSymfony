@@ -22,7 +22,29 @@
 	</div>
 	<!-- MAIN CONTENT !-->
 	<div data-role="main" class="ui-content">
-		
+		<fieldset class="ui-field-contain">
+			<select name="tableNumber" id="tableNumber">
+				
+			</select>
+		</fieldset>
+		<a href="#tableStatus" class="ui-btn" onclick="showTableStatus()">Συνέχεια</a>
+	</div>
+	<!-- FOOTER !-->
+	<div data-role="footer">
+		<h1><a href="/waiter" class="ui-btn">Επιστροφή στην αρχική</a></h1>
+	</div>
+</div>
+
+<div data-role="page" id="tableStatus">
+	<!-- HEADER !-->
+	<div data-role="header">
+		<h1>Κατάσταση Τραπεζιού</h1>
+	</div>
+	<!-- MAIN CONTENT !-->
+	<div data-role="main" class="ui-content">
+		<label for="total"><strong>Σύνολο:</strong></label>
+		<p id="total"></p>
+		<a href="#mainpage" class="ui-btn">Πίσω</a>
 	</div>
 	<!-- FOOTER !-->
 	<div data-role="footer">
