@@ -215,6 +215,10 @@ function saveTempOrder() {
 	obj.quantity = parseInt($('#quantity').val());
 	obj.description = $('#description').val();
 	details.push(obj);
+
+	//Clean the quantity spiner and the description txtbox
+	$('#quantity').val(0);
+	$('#description').val("");
 }
 
 function completeOrder() {
@@ -231,6 +235,10 @@ function completeOrder() {
 	params.details = details;
 
 	var jsonRequest = JSON.stringify(params);
+
+	//Clean the quantity spiner and the description txtbox
+	$('#quantity').val(0);
+	$('#description').val("");
 
 	$.ajax({
 		url: "/api/ordering/create",
